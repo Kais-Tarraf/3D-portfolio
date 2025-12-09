@@ -4,6 +4,7 @@ import { useMediaQuery } from "react-responsive";
 
 import { Room } from "./Room";
 import HeroLights from "./HeroLights";
+import Particles from "./Particles";
 
 const HeroExperience = () => {
 	const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -23,7 +24,7 @@ const HeroExperience = () => {
 			/>
 
 			<HeroLights />
-
+			<Particles />
 			<group
 				scale={isMobile ? 0.7 : 1}
 				position={[0, -3.5, 0]}
