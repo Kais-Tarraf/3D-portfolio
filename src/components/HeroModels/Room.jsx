@@ -16,7 +16,7 @@ export function Room(props) {
 
 	const curtainMaterial = new THREE.MeshPhongMaterial({
 		color: "#d90429",
-	});
+	}); 
 
 	const bodyMaterial = new THREE.MeshPhongMaterial({
 		map: matcapTexture,
