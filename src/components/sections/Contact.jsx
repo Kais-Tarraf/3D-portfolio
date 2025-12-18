@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../../components/TitleHeader";
-import ContactExperience from "../Models/contact/ContactExperience";
+import ContactExperience from "../../components/models/contact/ContactExperience";
 
 const Contact = () => {
 	const formRef = useRef(null);
@@ -17,6 +18,27 @@ const Contact = () => {
 		setForm({ ...form, [name]: value });
 	};
 
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setLoading(true); // Show loading state
+
+		try {
+			await emailjs.sendForm(
+				import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+				import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+				formRef.current,
+				import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+			);
+
+			// Reset form and stop loading
+			setForm({ name: "", email: "", message: "" });
+		} catch (error) {
+			console.error("EmailJS Error:", error); // Optional: show toast
+		} finally {
+			setLoading(false); // Always stop loading, even on error
+		}
+	};
+
 	return (
 		<section id="contact" className="flex-center section-padding">
 			<div className="w-full h-full md:px-10 px-5">
@@ -27,7 +49,11 @@ const Contact = () => {
 				<div className="grid-12-cols mt-16">
 					<div className="xl:col-span-5">
 						<div className="flex-center card-border rounded-xl p-10">
-							<form ref={formRef} className="w-full flex flex-col gap-7">
+							<form
+								ref={formRef}
+								onSubmit={handleSubmit}
+								className="w-full flex flex-col gap-7"
+							>
 								<div>
 									<label htmlFor="name">Your name</label>
 									<input
